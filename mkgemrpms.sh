@@ -78,8 +78,17 @@ for gem in SOURCES/*.gem; do
   # really we should turn ~> N.Y into ' >= N.Y, < N+1.0'
   sed -i -e '/^Requires: / { s/~>/>=/ }' $spec
 
+  # Make the package name literally "rubygem-<gem>-<version>"
+  # This is to support the very common rubygem use case where you have
+  # lots of versions of the same gem installed at once. RPM/YUM do not like
+  # this, so to hack around it, we make each package unique. That is, with the
+  # line below, you can install rubygem-stomp-1.0 and rubygem-stomp-1.1
+  # simultaneously.
   sed -i -e "s/^Name: .*/&-$version/" $spec
 
+  # Generate the 'release' based on current timestamp.
+  # This allows you to update how mkgemrpms works and rebuild the same gem version
+  # and have the newer build be counted by rpm/yum as newer.
   date=$(date +"%Y%m%d%H%M%S")
   sed -i -e "s/^Release: 1/Release: $date/" $spec
 
