@@ -1,0 +1,25 @@
+Tools for converting gems to native packages. Currently only RPM is supposed.
+
+mkgemrpms.sh will download the gem and any of its dependencies and convert all
+of those to rpms.
+
+For example:
+
+  % mkgemrpms.sh eventmachine-tail
+  Building eventmachine-tail >= 0
+  ...
+
+  % ls RPMS/*/*.rpm
+  RPMS/noarch/rubygem-eventmachine-tail-0.2.20100525165012-0.2.20100525165012-20100617140122.el5.noarch.rpm
+  RPMS/noarch/rubygem-rake-0.8.7-0.8.7-20100617140129.el5.noarch.rpm
+  RPMS/x86_64/rubygem-eventmachine-0.12.10-0.12.10-20100617140030.el5.x86_64.rpm
+
+
+'rake' was built because some gems require rake but don't specify that, so it
+was easier to simply hack that rake is always packaged.
+
+We will never rebuild a package. That is, as long as RPMS/*/*.rpm has an rpm
+that provides rubygem(gemname) = someversion, any attempt to build a gem of
+that version will be skipped.
+
+
