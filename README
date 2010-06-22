@@ -23,3 +23,32 @@ that provides rubygem(gemname) = someversion, any attempt to build a gem of
 that version will be skipped.
 
 
+--- Package Versioning
+
+The RPMs generated have a package 'name' of "rubygem-<gemname>-<version>"
+because RPM doesn't generally permit two packages of the same name to be
+installed at the same time. Including the version in the package name
+allows you to have many different versions of a given gem installed.
+
+This is necessary because one gem could require rspec=1.2.8 while another
+requires rspec=1.2.9.
+
+  % rpm -qa | grep rubygem-rspec
+  rubygem-rspec-1.2.9-1.2.9-20100622124056.el5
+  rubygem-rspec-1.2.8-1.2.8-20100617043953.el5
+
+  % gem list rspec
+
+  *** LOCAL GEMS ***
+
+  rspec (1.2.9, 1.2.8)
+
+--- Known bugs
+
+gem2rpm isn't very smart. I need to fork the project and maintain my own
+gem2rpm, but I haven't had time yet. 
+
+* gem2rpm currently includes 'development' gems in "Requires" which may or may
+  not be a bug. Ideally we want these in a -devel package.
+* Some version comparisions aren't ideal. Gem supports "~>" where RPM does not.
+  I conver this to >=, but really it should be ==.
