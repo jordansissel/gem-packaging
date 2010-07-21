@@ -143,5 +143,5 @@ for gem in SOURCES/*.gem; do
 
   esac
 
-  rpmbuild -bb $spec --buildroot $PWD/BUILD-$package --define "_topdir $PWD" $spec
+  rpmbuild -bb --buildroot $PWD/BUILD-$name-$version --define "_topdir $PWD" $spec
 done
