@@ -92,6 +92,12 @@ for gem in SOURCES/*.gem; do
   date=$(date +"%Y%m%d%H%M%S")
   sed -i -e "s/^Release: 1/Release: $date/" $spec
 
+  # Disable AutoReqProv by default as randomly rpmbuild will find the most wild and
+  # crazy dependencies which are false (like depending on /System/.../bin/ruby when
+  # we are not even building on OS X? WTF? or on /usr/local/bin/ruby which doesn't
+  # even exist on the build host?)
+  sed -i -e 's@^BuildRoot.*@&\nAutoReqProv: no@' $spec
+
   # Hacks to handle CentOS gem builds and other oddities from gem2rpm 
   # translation should go here.
   #sed -i -e 's@^gem install.*@& --no-ri --no-rdoc@' $spec
