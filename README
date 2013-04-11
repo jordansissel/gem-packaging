@@ -1,3 +1,10 @@
+# USE FPM INSTEAD
+## THIS PROJECT IS ABANDONED
+
+https://github.com/jordansissel/fpm#readme
+
+---
+
 Tools for converting gems to native packages. Currently only RPM is supposed.
 
 mkgemrpms.sh will download the gem and any of its dependencies and convert all
